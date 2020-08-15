@@ -12,14 +12,14 @@ const saveProducts = function(productList){
     localStorage.setItem('product',JSON.stringify(productList) )
 }
 
-// const removeProduct = function(id){
-//     const productIndex = productList.findIndex(function(item){
-//         return item.id === id
-//     })
-//     if(productIndex > -1){
-//         productList.splice(productIndex,1)
-//     }
-// }
+const removeProduct = function(id){
+    const productIndex = productList.findIndex(function(item){
+        return item.id === id
+    })
+    if(productIndex > -1){
+        productList.splice(productIndex,1)
+    }
+}
 
 
 const renderProducts = function(array, filter){
@@ -54,6 +54,11 @@ const creatProductsDomb = function(product){
 
     removeButton.textContent = 'remove'
     productEl.appendChild(removeButton)
+    removeButton.addEventListener("click" , function() {
+        removeProduct(product.id)
+        saveProducts(productList)
+        renderProducts(productList, filtered)
+    })
 
     return productEl
 }
