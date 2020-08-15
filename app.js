@@ -1,27 +1,18 @@
-let productList = []
-
-let productsJson = localStorage.getItem('product')
-
-if(productsJson !== null){
-    productList = JSON.parse(productsJson)
-}
+let productList = getSaveProduct()
 let filtered = {title:'' , available:false}
-
-// add-----------------------------------------
+renderProducts(productList, filtered)
 
 document.querySelector("#form-control").addEventListener('submit' , function(e){
     e.preventDefault()
 
     const title = e.target.elements.addProducts.value
     const exist = (e.target.elements.addAvailable.value == 'true')
-
-    const product = {title, exist}
+    const id = uuidv4()
+    const product = {title:title, exist:exist, Id:id}
     
     productList.push(product)
-    
-    localStorage.setItem('product',JSON.stringify(productList) )
-
-    render(productList, filtered)
+    saveProducts(productList)
+    renderProducts(productList, filtered)
 
     e.target.elements.addProducts.value = ''
     e.target.elements.addAvailable.value = ''
@@ -29,36 +20,13 @@ document.querySelector("#form-control").addEventListener('submit' , function(e){
 })
 
 
-// showProducts--------------------------------------------
-
-const render = function(array, filter){
-    let filterProduct = array.filter(function(item){
-        return item.title.toLowerCase().includes(filter.title.toLowerCase())
-    })
-    filterProduct = filterProduct.filter(function(item){
-        if(filtered.available){
-            return item.exist
-        }else{
-            return true
-        }
-    })
-        document.querySelector("#showProduct").innerHTML = ''
-        filterProduct.forEach(function(item){
-        const p = document.createElement("p")
-        p.textContent = item.title
-        document.querySelector("#showProduct").appendChild(p)
-    })
-}
-
-render(productList, filtered)
-
 document.querySelector("#input-search").addEventListener('input' , function(e){
     filtered.title  = e.target.value
-    render(productList, filtered)
+    renderProducts(productList, filtered)
 })
 
 
 document.querySelector("#checkProduct").addEventListener("change", function(e){
     filtered.available = e.target.checked
-    render(productList, filtered)
+    renderProducts(productList, filtered)
 })
