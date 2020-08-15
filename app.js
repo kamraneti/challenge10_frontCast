@@ -6,17 +6,14 @@ document.querySelector("#form-control").addEventListener('submit' , function(e){
     e.preventDefault()
 
     const title = e.target.elements.addProducts.value
-    const exist = (e.target.elements.addAvailable.value == 'true')
+    const exist = true
     const id = uuidv4()
     const product = {title:title, exist:exist, Id:id}
     
     productList.push(product)
     saveProducts(productList)
     renderProducts(productList, filtered)
-
-    e.target.elements.addProducts.value = ''
-    e.target.elements.addAvailable.value = ''
-    
+    e.target.elements.addProducts.value = '' 
 })
 
 

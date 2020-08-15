@@ -21,6 +21,15 @@ const removeProduct = function(id){
     }
 }
 
+const toggleProduct = function(id){
+    const product = productList.find(function(item){
+        return item.id === id
+    })
+    if(product !== undefined){
+        product.exist = !product.exist
+    }
+}
+
 
 const renderProducts = function(array, filter){
     let filterProduct =array.filter(function(item){
@@ -47,6 +56,33 @@ const creatProductsDomb = function(product){
     const removeButton = document.createElement("button")
 
     checkbox.setAttribute("type" , "checkbox")
+    checkbox.checked = !product.exist
+    checkbox.addEventListener("change", function(){
+        toggleProduct(product.id)
+        saveProducts(product)
+        renderProducts(productList, filtered)
+    })
+        // checkbox.addEventListener("change", function(e){
+    //     let change = e.target.checked
+    //     if(change ===true){
+    //         const filtrue = productList.filter(function(item){
+    //             return item.title === product.title
+    //         })
+    //         filtrue.forEach(function(item){
+    //             item.exist = false
+    //             saveProducts(productList)
+    //         })
+    //     }else if(change === false){
+    //         const filfals = productList.filter(function(item){
+    //             return item.title === product.title
+    //         })
+    //         filfals.forEach(function(item){
+    //             item.exist = true
+    //             saveProducts(productList)
+    //         })
+    //     }
+    // })
+    
     productEl.appendChild(checkbox)
 
     productItem.textContent = product.title
